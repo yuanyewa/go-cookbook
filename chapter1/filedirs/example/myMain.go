@@ -24,5 +24,10 @@ func main() {
 	f, _ = os.Open("aFile.txt")
 	io.Copy(os.Stdout, f)
 	f.Close()
+	os.Chdir("..")
+	if err = os.RemoveAll("example_dir"); err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(os.Getwd())
 
 }
