@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -30,4 +32,22 @@ func main() {
 	}
 	fmt.Println(os.Getwd())
 
+	f1, _ := os.Create("file1.txt")
+	f1.Write([]byte("this is me222222222222222"))
+	f2, _ := os.Create("file2.txt")
+	capFile(f1, f2)
+	f1.Close()
+	f2.Close()
+}
+
+func capFile(f1 *os.File, f2 *os.File) {
+	f1.Seek(0, 0)
+	fmt.Println()
+	tmp := new(bytes.Buffer)
+	//tmp := &bytes.Buffer{}
+	io.Copy(tmp, f1)
+	fmt.Println(tmp)
+	s := strings.ToUpper(tmp.String())
+	fmt.Println(s)
+	io.Copy(f2, strings.NewReader(s))
 }
